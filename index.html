@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Solicitud</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Solicitud</h1>
+        <!--<p>Formulario de ingreso a la universidad para los días sábado o feriados</p>-->
+        <form id="solicitudForm">
+            <label for="nombreSolicitante">Nombre del Solicitante:</label>
+            <input type="text" id="nombreSolicitante" name="nombreSolicitante" required>
+
+            <label for="fechaHoraIngreso">Hora y Fecha de Ingreso:</label>
+            <input type="datetime-local" id="fechaHoraIngreso" name="fechaHoraIngreso" required>
+
+            <label for="duracionActividad">Duración de la actividad:</label>
+            <input type="time" id="duracionActividad" name="duracionActividad" required>
+
+            <label for="lugarUtilizar">Espacio o Lugar a Utilizar:</label>
+            <input type="text" id="lugarUtilizar" name="lugarUtilizar" required>
+
+            <label for="nombreResponsable">Nombre del Responsable:</label>
+            <input type="text" id="nombreResponsable" name="nombreResponsable" required>
+
+            <label for="numeroTelefono">Número de Teléfono:</label>
+            <input type="tel" id="numeroTelefono" name="numeroTelefono" pattern="[0-9]{9,11}" placeholder="Escribir sin 0 y 15" required>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
