@@ -20,6 +20,21 @@ document.getElementById('solicitudForm').addEventListener('submit', function(eve
     }
 
     // Si la validación es exitosa, se puede enviar el formulario
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Establecer el formato del PDF
+    doc.setFontSize(12);
+    doc.text(`Solicitante: ${nombreSolicitante}`, 10, 10);
+    doc.text(`Fecha y hora: ${fechaHoraIngreso}`, 10, 20);
+    doc.text(`Duración: ${duracionActividad}`, 10, 30);
+    doc.text(`Espacio a utilizar: ${lugarUtilizar}`, 10, 40);
+    doc.text(`Responsable: ${nombreResponsable}`, 10, 50);
+    doc.text(`Teléfono: ${numeroTelefono}`, 10, 60);
+
+    // Descargar el PDF
+    doc.save(`formulario_${nombreSolicitante}_${fechaHoraIngreso}.pdf`);
     alert('Formulario enviado exitosamente!');
+
     // Aquí puedes agregar la lógica para enviar los datos a un servidor
 });
