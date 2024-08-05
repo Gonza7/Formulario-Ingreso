@@ -1,4 +1,4 @@
-package com.example.formulario.controller;
+package com.example.formulario.Controller;
 
 import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api")
@@ -24,7 +26,10 @@ public class FormularioController {
     private JavaMailSender mailSender;
 
     @PostMapping("/send-email")
-    public ResponseEntity<String> sendEmail(@RequestParam("pdf") MultipartFile pdf) throws DocumentException, MessagingException, IOException {
+    public ResponseEntity<String> sendEmail(@RequestParam("pdf") MultipartFile pdf,
+                                            @RequestParam("solicitante") String solicitante,
+                                            @RequestParam("fechahora") String fechahora,
+                                            @RequestParam("espacio") String espacio) throws DocumentException, MessagingException, IOException {
 
         // Convertir el PDF a InputStreamSource
         InputStreamSource pdfSource = new ByteArrayResource(pdf.getBytes());
@@ -34,9 +39,10 @@ public class FormularioController {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         String email="gonzaguzman60@gmail.com";
         helper.setTo(email);
-        helper.setSubject("Documento PDF");
-        helper.setText("Adjunto encontrarás el documento PDF.");
-        helper.addAttachment("document.pdf", pdfSource);
+        helper.setSubject("Solicitud de ingreso a la universidad");
+        helper.setText("Solicitud de ingreso a la universidad"+"\nSolicitante: "+solicitante+
+                "\nFecha y hora: "+fechahora+"\nEspacio: "+espacio);
+        helper.addAttachment("Solicitud_"+solicitante+".pdf", pdfSource);
 
         mailSender.send(mimeMessage);
 

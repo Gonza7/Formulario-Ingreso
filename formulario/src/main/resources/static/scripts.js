@@ -1,6 +1,5 @@
 document.getElementById('solicitudForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    
     // Validación de campos
 
     const nombreSolicitante = document.getElementById('nombreSolicitante').value;
@@ -9,6 +8,7 @@ document.getElementById('solicitudForm').addEventListener('submit', function(eve
     const lugarUtilizar = document.getElementById('lugarUtilizar').value;
     const nombreResponsable = document.getElementById('nombreResponsable').value;
     const numeroTelefono = document.getElementById('numeroTelefono').value;
+    const fechaHoraForm = formatDate(fechaHoraIngreso);
 
     if (!nombreSolicitante || !fechaHoraIngreso || !duracionActividad || !lugarUtilizar || !nombreResponsable || !numeroTelefono) {
         alert('Todos los campos son obligatorios.');
@@ -25,21 +25,30 @@ document.getElementById('solicitudForm').addEventListener('submit', function(eve
     const doc = new jsPDF();
 
     // Establecer el formato del PDF
+    doc.setFontSize(18);
+    doc.text('Formulario de ingreso a la universidad', 20, 20);
+
+    doc.setLineWidth(0.5);
+    doc.line(20, 25, 190, 25);
+
     doc.setFontSize(12);
-    doc.text(`Solicitante: ${nombreSolicitante}`, 10, 10);
-    doc.text(`Fecha y hora: ${fechaHoraIngreso}`, 10, 20);
-    doc.text(`Duración: ${duracionActividad}`, 10, 30);
-    doc.text(`Espacio a utilizar: ${lugarUtilizar}`, 10, 40);
-    doc.text(`Responsable: ${nombreResponsable}`, 10, 50);
-    doc.text(`Teléfono: ${numeroTelefono}`, 10, 60);
+    doc.text(`Solicitante: ${nombreSolicitante}`, 20, 40);
+    doc.text(`Fecha y hora: ${fechaHoraForm}`, 20, 50);
+    doc.text(`Duración: ${duracionActividad}`, 20, 60);
+    doc.text(`Espacio a utilizar: ${lugarUtilizar}`, 20, 70);
+    doc.text(`Responsable: ${nombreResponsable}`, 20, 80);
+    doc.text(`Teléfono: ${numeroTelefono}`, 20, 90);
 
     // Descargar el PDF
-    doc.save(`formulario_${nombreSolicitante}_${fechaHoraIngreso}.pdf`);
+    doc.save(`formulario_${nombreSolicitante}_${fechaHoraForm}.pdf`);
     const pdfData = doc.output('blob');
 
     const formData = new FormData();
+    formData.append('solicitante',nombreSolicitante);
+    formData.append('fechahora',fechaHoraForm);
+    formData.append('espacio',lugarUtilizar);
     formData.append('pdf', pdfData, 'document.pdf');
-
+    
     fetch('/api/send-email', {
         method: 'POST',
         body: formData
@@ -57,3 +66,19 @@ document.getElementById('solicitudForm').addEventListener('submit', function(eve
     alert('Formulario enviado exitosamente!');
 
 });
+function formatDate(dateString) {
+    // Convertir la cadena de fecha en un objeto Date
+    const date = new Date(dateString);
+
+    // Obtener los componentes de la fecha
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+    const year = date.getFullYear();
+
+    // Obtener los componentes de la hora
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    // Formatear la fecha y la hora
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
