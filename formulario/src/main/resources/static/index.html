@@ -14,6 +14,9 @@
             <label for="nombreSolicitante">Nombre del Solicitante:</label>
             <input type="text" id="nombreSolicitante" name="nombreSolicitante" required>
 
+            <label for="email">Dirección de correo electrónico:</label>
+            <input type="text" id="email" name="email" required>
+
             <label for="fechaHoraIngreso">Hora y Fecha de Ingreso:</label>
             <input type="datetime-local" id="fechaHoraIngreso" name="fechaHoraIngreso" class="tiempo" required>
 
@@ -30,6 +33,7 @@
             <input type="tel" id="numeroTelefono" name="numeroTelefono" pattern="[0-9]{9,11}" placeholder="Escribir sin 0 y 15" required>
 
             <button type="submit">Enviar</button>
+            <button id="guardar">Guardar solicitud</button>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

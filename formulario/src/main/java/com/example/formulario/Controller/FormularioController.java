@@ -28,6 +28,7 @@ public class FormularioController {
     @PostMapping("/send-email")
     public ResponseEntity<String> sendEmail(@RequestParam("pdf") MultipartFile pdf,
                                             @RequestParam("solicitante") String solicitante,
+                                            @RequestParam("email") String email,
                                             @RequestParam("fechahora") String fechahora,
                                             @RequestParam("espacio") String espacio) throws DocumentException, MessagingException, IOException {
 
@@ -37,11 +38,11 @@ public class FormularioController {
         // Enviar el correo electrónico
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        String email="gonzaguzman60@gmail.com";
-        helper.setTo(email);
+        String e="gonzaguzman60@gmail.com";
+        helper.setTo(e);
         helper.setSubject("Solicitud de ingreso a la universidad");
         helper.setText("Solicitud de ingreso a la universidad"+"\nSolicitante: "+solicitante+
-                "\nFecha y hora: "+fechahora+"\nEspacio: "+espacio);
+                "\nCorreo electrónico: "+email+"\nFecha y hora: "+fechahora+"\nEspacio: "+espacio);
         helper.addAttachment("Solicitud_"+solicitante+".pdf", pdfSource);
 
         mailSender.send(mimeMessage);
