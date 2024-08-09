@@ -29,7 +29,9 @@ public class FormularioController {
     public ResponseEntity<String> sendEmail(@RequestParam("pdf") MultipartFile pdf,
                                             @RequestParam("solicitante") String solicitante,
                                             @RequestParam("email") String email,
-                                            @RequestParam("fechahora") String fechahora,
+                                            @RequestParam("fecha") String fecha,
+                                            @RequestParam("hora_inicio") String hora_inicio,
+                                            @RequestParam("hora_cierre") String hora_cierre,
                                             @RequestParam("espacio") String espacio) throws DocumentException, MessagingException, IOException {
 
         // Convertir el PDF a InputStreamSource
@@ -42,7 +44,8 @@ public class FormularioController {
         helper.setTo(e);
         helper.setSubject("Solicitud de ingreso a la universidad");
         helper.setText("Solicitud de ingreso a la universidad"+"\nSolicitante: "+solicitante+
-                "\nCorreo electrónico: "+email+"\nFecha y hora: "+fechahora+"\nEspacio: "+espacio);
+                "\nCorreo electrónico: "+email+"\nFecha: "+fecha+"\nHora de ingreso: "+hora_inicio
+                +"\nHora de cierre: "+hora_cierre+"\nEspacio: "+espacio);
         helper.addAttachment("Solicitud_"+solicitante+".pdf", pdfSource);
 
         mailSender.send(mimeMessage);
